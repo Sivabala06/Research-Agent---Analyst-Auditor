@@ -1,0 +1,9 @@
+research_memory.db
+runs.jsonl
+__pycache__/
+.pytest_cache/
+*.pyc
+fastembed_cache/
+sample_runs/
+*.egg-info/
+.env

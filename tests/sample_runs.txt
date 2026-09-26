@@ -1,0 +1,752 @@
+This document contains the ten question and answer with detail trace of the agent activities, confidence score, time taken, cost and the claim flags
+
+C:\Users\ELCOT>cd C:\Users\ELCOT\research_agents
+
+C:\Users\ELCOT\research_agents>python main.py
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║          RESEARCH AGENT  ·  Zero-Cost Local AI  ·  Analyst + Auditor       ║
+║  Live web search  |  Citation-backed answers  |  Independent audit          ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+  Type your research question and press ENTER.
+  Type  exit  or  quit  to stop.  Ctrl-C also exits cleanly.
+
+  NOTE: Ollama must be running (`ollama serve`) before you ask anything.
+  Model: qwen3:4b  |  Memory: SQLite + fastembed semantic gating
+  All tracing is printed in full after each answer.
+
+
+──────────────────────────────────────────────────────────────────────────────
+  YOUR QUESTION  ▶  Who currently holds the world record for the fastest marathon time, and what is the time?
+
+  [1] Running pipeline for: 'Who currently holds the world record for the fastest marathon time, and what is the time?'
+
+  ⟳  Working (Input Guard → Planner → Memory → Search/Fetch → Claims → Audit) ...
+Page text truncated for RAM safety: 3034 words -> 3000 words (https://www.runpace.co/guides/marathon-world-records)
+Page text truncated for RAM safety: 3034 words -> 3000 words (https://www.runpace.co/guides/marathon-world-records)
+Page text truncated for RAM safety: 3034 words -> 3000 words (https://www.runpace.co/guides/marathon-world-records)
+Page text truncated for RAM safety: 3034 words -> 3000 words (https://www.runpace.co/guides/marathon-world-records)
+
+  ✓ Done in 148.4s  |  Tokens used: 3163  |  Audit: FAILED ✗
+
+──────────────────────────────────────────────────────────────────────────────
+  FULL TRACE  (plan → search → evidence → claims → audit → answer)
+──────────────────────────────────────────────────────────────────────────────
+==============================================================================
+QUESTION: Who currently holds the world record for the fastest marathon time, and what is the time?
+==============================================================================
+
+[PLAN]
+  Route: direct
+  Entities detected: (none)
+  Sub-questions (1):
+    1. Who currently holds the world record for the fastest marathon time, and what is the time?
+  Planner reasoning: Direct route: question stands as its own search query, no decomposition needed.
+
+[MEMORY / ROUTING / SEARCH / FETCH TRACE]
+  - planner.plan: route=direct, entities=[]
+  - memory_lookup.cache_check: cached_facts_found=0
+  - router_decision.route: chosen=search
+  - router.search: sub_questions=1
+  - evidence.fetch: pieces=2, failed=3
+  - claims.llm_call: prompt_tokens=678, completion_tokens=84, latency_seconds=60.366, hit_output_cap=False
+  - auditor.llm_call: prompt_tokens=746, completion_tokens=64, latency_seconds=40.269, hit_output_cap=False
+  - auditor.audit: passed=False, supported=0, unsupported=0, contradicted=1
+  - router_decision.audit_route: chosen=retry
+  - gap_analyzer.retry_triggered:
+  - router.search: sub_questions=1
+  - evidence.fetch: pieces=2, failed=3
+  - claims.llm_call: prompt_tokens=678, completion_tokens=84, latency_seconds=16.131, hit_output_cap=False
+  - auditor.llm_call: prompt_tokens=746, completion_tokens=83, latency_seconds=16.351, hit_output_cap=False
+  - auditor.audit: passed=False, supported=0, unsupported=0, contradicted=1
+  - router_decision.audit_route: chosen=end, passed=False
+  - memory_save.saved: facts_saved=0
+
+[GAP ANALYZER] Auditor flagged issues -> retried research 1 time(s)
+
+[ANALYST CANDIDATE ANSWER]
+  Claim 1: The current men's marathon world record is 1:59:30, set by Sabastian Sawe of Kenya at the London Marathon on April 26, 2026.
+
+[CITATIONS] (one per claim above)
+  [1] https://www.runpace.co/guides/marathon-world-records
+
+[AUDITOR VERDICT] (per citation)
+  [1] CONTRADICTED — The current men's marathon world record is 1:59:30, set by Sabastian Sawe of Kenya at the London Marathon on April 26, 2026.
+      source: https://www.runpace.co/guides/marathon-world-records
+      reason: The claim states the record was set on April 26, 2026, but the source text mentions the women's record set in October 2024, and the men's record appears to be from a future event that hasn't occurred yet (2026 is in the future).
+      source tier: tier_3 (score=0.3)
+      cross-check: CORROBORATED - Corroborated: also appears in https://therunningchannel.com/fastest-marathon-world-record/
+
+  Summary: 0 supported, 0 unsupported, 1 contradicted -> FAILED
+  Confidence score: 0.33 / 1.00
+
+[FINAL VALIDATED ANSWER] (post Output Guard)
+  No claims could be independently verified.
+  Unresolved: 1 claim(s) failed audit and were removed.
+
+[COST / TRACE]
+  Tokens: 3163 (prompt=2848, completion=315)
+  Estimated cost: Rs.0.0000 (local model -> real cost Rs.0)
+  Wall clock: 148.4s
+==============================================================================
+
+──────────────────────────────────────────────────────────────────────────────
+  QUICK ANSWER
+──────────────────────────────────────────────────────────────────────────────
+  No claims could be independently verified.
+  Unresolved: 1 claim(s) failed audit and were removed.
+──────────────────────────────────────────────────────────────────────────────
+
+──────────────────────────────────────────────────────────────────────────────
+  YOUR QUESTION  ▶  Which three countries have installed the most solar power capacity in the last two years?
+
+  [2] Running pipeline for: 'Which three countries have installed the most solar power capacity in the last two years?'
+
+  ⟳  Working (Input Guard → Planner → Memory → Search/Fetch → Claims → Audit) ...
+Prompt truncated: 1309 words (~1767 tokens) -> 888 words (~1200 tokens) to respect MAX_INPUT_TOKENS=1200
+Dropped near-duplicate claim: 'United States installed the second most solar power capacity in the last two years'
+Dropped near-duplicate claim: 'India installed the third most solar power capacity in the last two years'
+Dropped near-duplicate claim: 'Japan installed the fourth most solar power capacity in the last two years'
+
+  ✓ Done in 203.7s  |  Tokens used: 2111  |  Audit: PASSED ✓
+
+──────────────────────────────────────────────────────────────────────────────
+  FULL TRACE  (plan → search → evidence → claims → audit → answer)
+──────────────────────────────────────────────────────────────────────────────
+==============================================================================
+QUESTION: Which three countries have installed the most solar power capacity in the last two years?
+==============================================================================
+
+[PLAN]
+  Route: multi_source
+  Entities detected: (none)
+  Sub-questions (3):
+    1. solar power capacity installed by country in 2022 and 2023
+    2. latest country rankings for solar power capacity additions 2022-2023
+    3. top 3 countries with highest solar capacity growth 2022-2023
+  Planner reasoning: To find the top 3 countries with the most solar power capacity installed in the last two years (2022-2023), we need to search for recent data on country-level solar capacity additions during this period.
+
+[MEMORY / ROUTING / SEARCH / FETCH TRACE]
+  - planner.plan: route=multi_source, entities=[]
+  - memory_lookup.cache_check: cached_facts_found=0
+  - router_decision.route: chosen=search
+  - router.search: sub_questions=3
+  - evidence.fetch: pieces=8, failed=7
+  - claims.llm_call: prompt_tokens=1253, completion_tokens=387, latency_seconds=127.88, hit_output_cap=False
+  - auditor.llm_call: prompt_tokens=398, completion_tokens=73, latency_seconds=28.365, hit_output_cap=False
+  - auditor.audit: passed=True, supported=1, unsupported=0, contradicted=0
+  - router_decision.audit_route: chosen=end, passed=True
+  - memory_save.saved: facts_saved=1
+
+[ANALYST CANDIDATE ANSWER]
+  Claim 1: China installed the most solar power capacity in the last two years
+  Unresolved (analyst): The evidence does not provide information on the exact installation numbers for the last two years (2023 and 2022) for all countries, so it's not possible to determine which country installed the most solar power capacity in the last two years with precision. Evidence 1 mentions China installed 58% of the world's new solar PV capacity in 2023, and the US installed 8% of the world's 360 gigawatts of capacity additions (235 gigawatts). Evidence 5 mentions China produced more than 580 TWh of solar electricity in 2023, the US held second place with 238 TWh, and India overtook Japan to claim third place with 113 TWh. However, the evidence does not specify which country installed the most solar power capacity in the last two years (2023 and 2022), so it's unclear which country installed the third most in the last two years.
+
+[CITATIONS] (one per claim above)
+  [1] https://www.statista.com/statistics/271448/distribution-of-newly-installed-solar-capacity-by-country/
+
+[AUDITOR VERDICT] (per citation)
+  [1] SUPPORTED — China installed the most solar power capacity in the last two years
+      source: https://www.statista.com/statistics/271448/distribution-of-newly-installed-solar-capacity-by-country/
+      reason: The source states China installed 58% of the world's new solar PV capacity in 2023, which corresponds to the claim of China installing the most solar power capacity in the last two years (with 2023 being the most recent year mentioned).
+      source tier: tier_3 (score=0.3)
+      cross-check: CORROBORATED - Corroborated: also appears in https://www.saurenergy.com/solar-energy-blog/top-5-countries-with-the-fastest-increase-in-solar-capacity-in-2023
+
+  Summary: 1 supported, 0 unsupported, 0 contradicted -> PASSED
+  Confidence score: 1.0 / 1.00
+
+[FINAL VALIDATED ANSWER] (post Output Guard)
+  China installed the most solar power capacity in the last two years [https://www.statista.com/statistics/271448/distribution-of-newly-installed-solar-capacity-by-country/]
+  Unresolved: The evidence does not provide information on the exact installation numbers for the last two years (2023 and 2022) for all countries, so it's not possible to determine which country installed the most solar power capacity in the last two years with precision. Evidence 1 mentions China installed 58% of the world's new solar PV capacity in 2023, and the US installed 8% of the world's 360 gigawatts of capacity additions (235 gigawatts). Evidence 5 mentions China produced more than 580 TWh of solar electricity in 2023, the US held second place with 238 TWh, and India overtook Japan to claim third place with 113 TWh. However, the evidence does not specify which country installed the most solar power capacity in the last two years (2023 and 2022), so it's unclear which country installed the third most in the last two years. Note: this answer relies only on lower-tier/unclassified sources; treat with extra caution.
+
+[COST / TRACE]
+  Tokens: 2111 (prompt=1651, completion=460)
+  Estimated cost: Rs.0.0000 (local model -> real cost Rs.0)
+  Wall clock: 203.7s
+==============================================================================
+
+──────────────────────────────────────────────────────────────────────────────
+  QUICK ANSWER
+──────────────────────────────────────────────────────────────────────────────
+  China installed the most solar power capacity in the last two years
+  [https://www.statista.com/statistics/271448/distribution-of-newly-
+  installed-solar-capacity-by-country/]
+  Unresolved: The evidence does not provide information on the exact
+    installation numbers for the last two years (2023 and 2022) for all
+    countries, so it's not possible to determine which country installed
+    the most solar power capacity in the last two years with precision.
+    Evidence 1 mentions China installed 58% of the world's new solar PV
+    capacity in 2023, and the US installed 8% of the world's 360 gigawatts
+    of capacity additions (235 gigawatts). Evidence 5 mentions China
+    produced more than 580 TWh of solar electricity in 2023, the US held
+    second place with 238 TWh, and India overtook Japan to claim third
+    place with 113 TWh. However, the evidence does not specify which
+    country installed the most solar power capacity in the last two years
+    (2023 and 2022), so it's unclear which country installed the third
+    most in the last two years. Note: this answer relies only on lower-
+    tier/unclassified sources; treat with extra caution.
+──────────────────────────────────────────────────────────────────────────────
+
+──────────────────────────────────────────────────────────────────────────────
+  YOUR QUESTION  ▶  List the highest-grossing films of 2025, with box office figures.
+
+  [3] Running pipeline for: 'List the highest-grossing films of 2025, with box office figures.'
+
+  ⟳  Working (Input Guard → Planner → Memory → Search/Fetch → Claims → Audit) ...
+Page text truncated for RAM safety: 3483 words -> 3000 words (https://www.boxofficemojo.com/year/world/2025/?sortDir=asc)
+Page text truncated for RAM safety: 13763 words -> 3000 words (https://www.the-numbers.com/market/2025/top-grossing-movies)
+Page text truncated for RAM safety: 3483 words -> 3000 words (https://www.boxofficemojo.com/year/world/2025/?sortDir=asc)
+Prompt truncated: 996 words (~1344 tokens) -> 888 words (~1200 tokens) to respect MAX_INPUT_TOKENS=1200
+
+  ✗ Pipeline error: Ollama call timed out after 180s.
+  (Is Ollama running? Try: ollama serve)
+
+──────────────────────────────────────────────────────────────────────────────
+  YOUR QUESTION  ▶  What is IIT Madras's current ranking in the QS World University Rankings?
+
+  [4] Running pipeline for: "What is IIT Madras's current ranking in the QS World University Rankings?"
+
+  ⟳  Working (Input Guard → Planner → Memory → Search/Fetch → Claims → Audit) ...
+Prompt truncated: 980 words (~1323 tokens) -> 888 words (~1200 tokens) to respect MAX_INPUT_TOKENS=1200
+Dropped near-duplicate claim: 'IIT Madras is ranked 278th in the QS World University Rankings 2024'
+Dropped near-duplicate claim: 'IIT Madras is ranked 278th in the QS World University Rankings 2024'
+Dropped near-duplicate claim: 'IIT Madras is ranked 278th in the QS World University Rankings 2024'
+
+  ✓ Done in 264.5s  |  Tokens used: 4196  |  Audit: FAILED ✗
+
+──────────────────────────────────────────────────────────────────────────────
+  FULL TRACE  (plan → search → evidence → claims → audit → answer)
+──────────────────────────────────────────────────────────────────────────────
+==============================================================================
+QUESTION: What is IIT Madras's current ranking in the QS World University Rankings?
+==============================================================================
+
+[PLAN]
+  Route: multi_source
+  Entities detected: ['IIT Madras', 'QS World University Rankings']
+  Sub-questions (2):
+    1. IIT Madras QS World University Rankings 2024
+    2. QS World University Rankings 2024 IIT Madras
+  Planner reasoning: These queries target the latest QS World University Rankings 2024 for IIT Madras, ensuring the most recent data is retrieved from official or authoritative sources.
+
+[MEMORY / ROUTING / SEARCH / FETCH TRACE]
+  - planner.plan: route=multi_source, entities=['IIT Madras', 'QS World University Rankings']
+  - memory_lookup.cache_check: cached_facts_found=0
+  - router_decision.route: chosen=search
+  - router.search: sub_questions=2
+  - evidence.fetch: pieces=6, failed=4
+  - claims.llm_call: prompt_tokens=1346, completion_tokens=157, latency_seconds=88.437, hit_output_cap=False
+  - auditor.llm_call: prompt_tokens=578, completion_tokens=57, latency_seconds=33.197, hit_output_cap=False
+  - auditor.audit: passed=False, supported=0, unsupported=1, contradicted=0
+  - router_decision.audit_route: chosen=retry
+  - gap_analyzer.retry_triggered:
+  - router.search: sub_questions=2
+  - evidence.fetch: pieces=5, failed=5
+  - claims.llm_call: prompt_tokens=1312, completion_tokens=114, latency_seconds=81.379, hit_output_cap=False
+  - auditor.llm_call: prompt_tokens=578, completion_tokens=54, latency_seconds=12.953, hit_output_cap=False
+  - auditor.audit: passed=False, supported=0, unsupported=1, contradicted=0
+  - router_decision.audit_route: chosen=end, passed=False
+  - memory_save.saved: facts_saved=0
+
+[GAP ANALYZER] Auditor flagged issues -> retried research 1 time(s)
+
+[ANALYST CANDIDATE ANSWER]
+  Claim 1: IIT Madras is ranked 278th in the QS World University Rankings 2024
+
+[CITATIONS] (one per claim above)
+  [1] https://ilovephd.com/qs-world-rankings-indian-universities/
+
+[AUDITOR VERDICT] (per citation)
+  [1] UNSUPPORTED — IIT Madras is ranked 278th in the QS World University Rankings 2024
+      source: https://ilovephd.com/qs-world-rankings-indian-universities/
+      reason: The source lists IIT Madras as 285th, not 278th, and does not mention a 278th rank for IIT Madras.
+      source tier: tier_3 (score=0.3)
+      cross-check: CORROBORATED - Corroborated: also appears in https://www.news18.com/education-career/qs-world-university-rankings-by-subject-released-iit-delhi-iit-bombay-in-top-50-9996519.html
+
+  Summary: 0 supported, 1 unsupported, 0 contradicted -> FAILED
+  Confidence score: 0.33 / 1.00
+
+[FINAL VALIDATED ANSWER] (post Output Guard)
+  No claims could be independently verified.
+  Unresolved: 1 claim(s) failed audit and were removed.
+
+[COST / TRACE]
+  Tokens: 4196 (prompt=3814, completion=382)
+  Estimated cost: Rs.0.0000 (local model -> real cost Rs.0)
+  Wall clock: 264.5s
+==============================================================================
+
+──────────────────────────────────────────────────────────────────────────────
+  QUICK ANSWER
+──────────────────────────────────────────────────────────────────────────────
+  No claims could be independently verified.
+  Unresolved: 1 claim(s) failed audit and were removed.
+──────────────────────────────────────────────────────────────────────────────
+
+──────────────────────────────────────────────────────────────────────────────
+  YOUR QUESTION  ▶  What is India's current installed solar power capacity?
+
+  [5] Running pipeline for: "What is India's current installed solar power capacity?"
+
+  ⟳  Working (Input Guard → Planner → Memory → Search/Fetch → Claims → Audit) ...
+Page text truncated for RAM safety: 3016 words -> 3000 words (https://qbitsenergy.com/blog/india-solar-statistics-2026-data/)
+Page text truncated for RAM safety: 3016 words -> 3000 words (https://qbitsenergy.com/blog/india-solar-statistics-2026-data/)
+
+  ✓ Done in 190.2s  |  Tokens used: 4154  |  Audit: FAILED ✗
+
+──────────────────────────────────────────────────────────────────────────────
+  FULL TRACE  (plan → search → evidence → claims → audit → answer)
+──────────────────────────────────────────────────────────────────────────────
+==============================================================================
+QUESTION: What is India's current installed solar power capacity?
+==============================================================================
+
+[PLAN]
+  Route: direct
+  Entities detected: ['India']
+  Sub-questions (1):
+    1. What is India's current installed solar power capacity?
+  Planner reasoning: Direct route: question stands as its own search query, no decomposition needed.
+
+[MEMORY / ROUTING / SEARCH / FETCH TRACE]
+  - planner.plan: route=direct, entities=['India']
+  - memory_lookup.cache_check: cached_facts_found=0
+  - router_decision.route: chosen=search
+  - router.search: sub_questions=1
+  - evidence.fetch: pieces=4, failed=1
+  - claims.llm_call: prompt_tokens=1284, completion_tokens=67, latency_seconds=68.237, hit_output_cap=False
+  - auditor.llm_call: prompt_tokens=652, completion_tokens=73, latency_seconds=38.503, hit_output_cap=False
+  - auditor.audit: passed=False, supported=0, unsupported=0, contradicted=1
+  - router_decision.audit_route: chosen=retry
+  - gap_analyzer.retry_triggered:
+  - router.search: sub_questions=1
+  - evidence.fetch: pieces=4, failed=1
+  - claims.llm_call: prompt_tokens=1314, completion_tokens=59, latency_seconds=26.946, hit_output_cap=False
+  - auditor.llm_call: prompt_tokens=613, completion_tokens=92, latency_seconds=39.422, hit_output_cap=False
+  - auditor.audit: passed=False, supported=0, unsupported=0, contradicted=1
+  - router_decision.audit_route: chosen=end, passed=False
+  - memory_save.saved: facts_saved=0
+
+[GAP ANALYZER] Auditor flagged issues -> retried research 1 time(s)
+
+[ANALYST CANDIDATE ANSWER]
+  Claim 1: India's current installed solar power capacity is 100.33 GW
+
+[CITATIONS] (one per claim above)
+  [1] https://pib.gov.in/PressReleasePage.aspx?PRID=2100603
+
+[AUDITOR VERDICT] (per citation)
+  [1] CONTRADICTED — India's current installed solar power capacity is 100.33 GW
+      source: https://pib.gov.in/PressReleasePage.aspx?PRID=2100603
+      reason: The source states India's total solar capacity installed as of January 31, 2025, stands at 100.33 GW, but the claim is about 'current' installed capacity, which would be in 2024 or earlier, making the date inconsistent with the future year 2025 mentioned in the source.
+      source tier: tier_1 (score=0.9)
+      cross-check: CORROBORATED - Corroborated: also appears in https://qbitsenergy.com/blog/india-solar-statistics-2026-data/
+
+  Summary: 0 supported, 0 unsupported, 1 contradicted -> FAILED
+  Confidence score: 0.33 / 1.00
+
+[FINAL VALIDATED ANSWER] (post Output Guard)
+  No claims could be independently verified.
+  Unresolved: 1 claim(s) failed audit and were removed.
+
+[COST / TRACE]
+  Tokens: 4154 (prompt=3863, completion=291)
+  Estimated cost: Rs.0.0000 (local model -> real cost Rs.0)
+  Wall clock: 190.2s
+==============================================================================
+
+──────────────────────────────────────────────────────────────────────────────
+  QUICK ANSWER
+──────────────────────────────────────────────────────────────────────────────
+  No claims could be independently verified.
+  Unresolved: 1 claim(s) failed audit and were removed.
+──────────────────────────────────────────────────────────────────────────────
+
+──────────────────────────────────────────────────────────────────────────────
+  YOUR QUESTION  ▶  Which three archaeological sites in India were most recently added to UNESCO's tentative list?
+
+  [6] Running pipeline for: "Which three archaeological sites in India were most recently added to UNESCO's tentative list?"
+
+  ⟳  Working (Input Guard → Planner → Memory → Search/Fetch → Claims → Audit) ...
+Search attempt 1/3 failed for query 'UNESCO tentative list India 2:2023': No results found.
+
+  ✓ Done in 469.0s  |  Tokens used: 6676  |  Audit: FAILED ✗
+
+──────────────────────────────────────────────────────────────────────────────
+  FULL TRACE  (plan → search → evidence → claims → audit → answer)
+──────────────────────────────────────────────────────────────────────────────
+==============================================================================
+QUESTION: Which three archaeological sites in India were most recently added to UNESCO's tentative list?
+==============================================================================
+
+[PLAN]
+  Route: multi_source
+  Entities detected: ['India', 'UNESCO']
+  Sub-questions (3):
+    1. UNESCO tentative list India recent additions 2023
+    2. Which three archaeological sites in India were added to UNESCO tentative list in 2023
+    3. UNESCO tentative list India 2:2023
+  Planner reasoning: To find the most recently added archaeological sites in India to UNESCO's tentative list, focus on the latest year (2023) and specify the type of sites as archaeological to narrow results.
+
+[MEMORY / ROUTING / SEARCH / FETCH TRACE]
+  - planner.plan: route=multi_source, entities=['India', 'UNESCO']
+  - memory_lookup.cache_check: cached_facts_found=0
+  - router_decision.route: chosen=search
+  - router.search: sub_questions=3
+  - evidence.fetch: pieces=3, failed=12
+  - claims.llm_call: prompt_tokens=799, completion_tokens=132, latency_seconds=54.916, hit_output_cap=False
+  - synthesis.llm_call: prompt_tokens=159, completion_tokens=88, latency_seconds=21.256, hit_output_cap=False
+  - auditor.llm_call: prompt_tokens=583, completion_tokens=57, latency_seconds=33.429, hit_output_cap=False
+  - auditor.llm_call: prompt_tokens=580, completion_tokens=67, latency_seconds=33.035, hit_output_cap=False
+  - auditor.llm_call: prompt_tokens=577, completion_tokens=86, latency_seconds=34.431, hit_output_cap=False
+  - auditor.audit: passed=False, supported=2, unsupported=0, contradicted=1
+  - router_decision.audit_route: chosen=retry
+  - gap_analyzer.retry_triggered:
+  - router.search: sub_questions=3
+  - evidence.fetch: pieces=4, failed=11
+  - claims.llm_call: prompt_tokens=1015, completion_tokens=234, latency_seconds=82.543, hit_output_cap=False
+  - synthesis.llm_call: prompt_tokens=231, completion_tokens=100, latency_seconds=24.763, hit_output_cap=False
+  - auditor.llm_call: prompt_tokens=568, completion_tokens=72, latency_seconds=34.402, hit_output_cap=False
+  - auditor.llm_call: prompt_tokens=601, completion_tokens=74, latency_seconds=36.284, hit_output_cap=False
+  - auditor.llm_call: prompt_tokens=599, completion_tokens=54, latency_seconds=32.663, hit_output_cap=False
+  - auditor.audit: passed=False, supported=2, unsupported=1, contradicted=0
+  - router_decision.audit_route: chosen=end, passed=False
+  - memory_save.saved: facts_saved=2
+
+[GAP ANALYZER] Auditor flagged issues -> retried research 1 time(s)
+
+[ANALYST CANDIDATE ANSWER]
+  Claim 1: Deccan Traps at Panchgani and Mahabaleshwar (Maharashtra) was one of the seven new sites added to UNESCO's Tentative List in 2025
+  Claim 2: Geological Heritage of St. Mary’s Island (Karnataka) was one of the seven new sites added to UNESCO's Tentative List in 2025
+  Claim 3: Meghalayan Age Caves (Meghalaya) was one of the seven new sites added to UNESCO's Tentative List in 2025
+  Unresolved (analyst): The evidence does not specify the exact dates when the seven sites were added to the Tentative List, so it is unclear which three were most recently added.
+
+[CITATIONS] (one per claim above)
+  [1] https://www.moneycontrol.com/travel/india-adds-7-new-sites-to-unesco-s-tentative-world-heritage-list-total-rises-to-69-all-you-need-to-know-article-13546330.html
+  [2] https://ajmaliasacademy.in/seven-indian-sites-added-to-unescos-tentative-list/
+  [3] https://ajmaliasacademy.in/seven-indian-sites-added-to-unescos-tentative-list/
+
+[AUDITOR VERDICT] (per citation)
+  [1] UNSUPPORTED — Deccan Traps at Panchgani and Mahabaleshwar (Maharashtra) was one of the seven new sites added to UNESCO's Tentative List in 2025
+      source: https://www.moneycontrol.com/travel/india-adds-7-new-sites-to-unesco-s-tentative-world-heritage-list-total-rises-to-69-all-you-need-to-know-article-13546330.html
+      reason: The source mentions seven new sites being added to UNESCO's Tentative List in 2025, but does not specify that the Deccan Traps at Panchgani and Mahabaleshwar are among them, nor does it provide names of the sites.
+      source tier: tier_1 (score=0.9)
+      cross-check: CORROBORATED - Corroborated: also appears in https://ajmaliasacademy.in/seven-indian-sites-added-to-unescos-tentative-list/
+  [2] SUPPORTED — Geological Heritage of St. Mary’s Island (Karnataka) was one of the seven new sites added to UNESCO's Tentative List in 2025
+      source: https://ajmaliasacademy.in/seven-indian-sites-added-to-unescos-tentative-list/
+      reason: The source explicitly states that 'Geological Heritage of St. Mary’s Island, Karnataka' was added as one of the seven new sites to UNESCO’s Tentative List in 2:25, with specific details about its columnar basalt formations dating back ~85 million years.
+      source tier: tier_3 (score=0.3)
+      cross-check: CORROBORATED - Corroborated: also appears in https://www.moneycontrol.com/travel/india-adds-7-new-sites-to-unesco-s-tentative-world-heritage-list-total-rises-to-69-all-you-need-to-know-article-13546330.html
+  [3] SUPPORTED — Meghalayan Age Caves (Meghalaya) was one of the seven new sites added to UNESCO's Tentative List in 2025
+      source: https://ajmaliasacademy.in/seven-indian-sites-added-to-unescos-tentative-list/
+      reason: The source explicitly states that Meghalayan Age Caves in Meghalaya was one of the seven new sites added to UNESCO's Tentative List in 2:2025.
+      source tier: tier_3 (score=0.3)
+      cross-check: CORROBORATED - Corroborated: also appears in https://www.moneycontrol.com/travel/india-adds-7-new-sites-to-unesco-s-tentative-world-heritage-list-total-rises-to-69-all-you-need-to-know-article-13546330.html
+
+  Summary: 2 supported, 1 unsupported, 0 contradicted -> FAILED
+  Confidence score: 0.78 / 1.00
+
+[FINAL VALIDATED ANSWER] (post Output Guard)
+  Geological Heritage of St. Mary’s Island (Karnataka) was one of the seven new sites added to UNESCO's Tentative List in 2025 [https://ajmaliasacademy.in/seven-indian-sites-added-to-unescos-tentative-list/] Meghalayan Age Caves (Meghalaya) was one of the seven new sites added to UNESCO's Tentative List in 2025 [https://ajmaliasacademy.in/seven-indian-sites-added-to-unescos-tentative-list/]
+  Unresolved: The evidence does not specify the exact dates when the seven sites were added to the Tentative List, so it is unclear which three were most recently added. 1 claim(s) failed audit and were removed. Note: this answer relies only on lower-tier/unclassified sources; treat with extra caution.
+
+[COST / TRACE]
+  Tokens: 6676 (prompt=5712, completion=964)
+  Estimated cost: Rs.0.0000 (local model -> real cost Rs.0)
+  Wall clock: 469.0s
+==============================================================================
+
+──────────────────────────────────────────────────────────────────────────────
+  QUICK ANSWER
+──────────────────────────────────────────────────────────────────────────────
+  Geological Heritage of St. Mary’s Island (Karnataka) was one of the
+  seven new sites added to UNESCO's Tentative List in 2025
+  [https://ajmaliasacademy.in/seven-indian-sites-added-to-unescos-
+  tentative-list/] Meghalayan Age Caves (Meghalaya) was one of the seven
+  new sites added to UNESCO's Tentative List in 2025
+  [https://ajmaliasacademy.in/seven-indian-sites-added-to-unescos-
+  tentative-list/]
+  Unresolved: The evidence does not specify the exact dates when the seven
+    sites were added to the Tentative List, so it is unclear which three
+    were most recently added. 1 claim(s) failed audit and were removed.
+    Note: this answer relies only on lower-tier/unclassified sources;
+    treat with extra caution.
+──────────────────────────────────────────────────────────────────────────────
+
+──────────────────────────────────────────────────────────────────────────────
+  YOUR QUESTION  ▶  Who is the current Chairman of Indian Oil Corporation, and where did they work before joining?
+
+  [7] Running pipeline for: 'Who is the current Chairman of Indian Oil Corporation, and where did they work before joining?'
+
+  ⟳  Working (Input Guard → Planner → Memory → Search/Fetch → Claims → Audit) ...
+
+  ✓ Done in 237.7s  |  Tokens used: 3131  |  Audit: PASSED ✓
+
+──────────────────────────────────────────────────────────────────────────────
+  FULL TRACE  (plan → search → evidence → claims → audit → answer)
+──────────────────────────────────────────────────────────────────────────────
+==============================================================================
+QUESTION: Who is the current Chairman of Indian Oil Corporation, and where did they work before joining?
+==============================================================================
+
+[PLAN]
+  Route: multi_hop
+  Entities detected: ['Chairman', 'Indian Oil Corporation']
+  Sub-questions (2):
+    1. current chairman of Indian Oil Corporation
+    2. previous experience of current chairman of Indian Oil Corporation
+  Planner reasoning: To find the current chairman and their prior work history, we need two specific queries: one to identify the current chairman and another to check their previous roles.
+
+[MEMORY / ROUTING / SEARCH / FETCH TRACE]
+  - planner.plan: route=multi_hop, entities=['Chairman', 'Indian Oil Corporation']
+  - memory_lookup.cache_check: cached_facts_found=0
+  - router_decision.route: chosen=multi_hop
+  - multi_hop_extract.llm_call: prompt_tokens=467, completion_tokens=21, latency_seconds=24.071, hit_output_cap=False
+  - claims.llm_call: prompt_tokens=599, completion_tokens=97, latency_seconds=41.077, hit_output_cap=False
+  - auditor.llm_call: prompt_tokens=570, completion_tokens=57, latency_seconds=32.354, hit_output_cap=False
+  - auditor.audit: passed=False, supported=0, unsupported=0, contradicted=1
+  - router_decision.audit_route: chosen=retry
+  - gap_analyzer.retry_triggered:
+  - router.search: sub_questions=2
+  - evidence.fetch: pieces=2, failed=8
+  - claims.llm_call: prompt_tokens=599, completion_tokens=91, latency_seconds=38.744, hit_output_cap=False
+  - auditor.llm_call: prompt_tokens=564, completion_tokens=66, latency_seconds=33.322, hit_output_cap=False
+  - auditor.audit: passed=True, supported=1, unsupported=0, contradicted=0
+  - router_decision.audit_route: chosen=end, passed=True
+  - memory_save.saved: facts_saved=1
+
+[GAP ANALYZER] Auditor flagged issues -> retried research 1 time(s)
+
+[ANALYST CANDIDATE ANSWER]
+  Claim 1: Arvinder Singh Sahney is the current Chairman of Indian Oil Corporation, appointed as of November 13, 2024, following S. M. Vaidya's tenure and V. Satish Kumar's interim period.
+
+[CITATIONS] (one per claim above)
+  [1] https://www.gktoday.in/arvinder-singh-sahney-becomes-indian-oil-chairman/
+
+[AUDITOR VERDICT] (per citation)
+  [1] SUPPORTED — Arvinder Singh Sahney is the current Chairman of Indian Oil Corporation, appointed as of November 13, 2024, following S. M. Vaidya's tenure and V. Satish Kumar's interim period.
+      source: https://www.gktoday.in/arvinder-singh-sahney-becomes-indian-oil-chairman/
+      reason: The source explicitly states Arvinder Singh Sahney was appointed Chairman of Indian Oil Corporation as of November 13, 2024, following S. M. Vaidya's tenure and V. Satish Kumar's interim period.
+      source tier: tier_3 (score=0.3)
+      cross-check: CORROBORATED - Corroborated: also appears in https://economictimes.indiatimes.com/indian-oil-corporation-ltd/infocompanymanagement/companyid-11924.cms
+
+  Summary: 1 supported, 0 unsupported, 0 contradicted -> PASSED
+  Confidence score: 1.0 / 1.00
+
+[FINAL VALIDATED ANSWER] (post Output Guard)
+  Arvinder Singh Sahney is the current Chairman of Indian Oil Corporation, appointed as of November 13, 2024, following S. M. Vaidya's tenure and V. Satish Kumar's interim period. [https://www.gktoday.in/arvinder-singh-sahney-becomes-indian-oil-chairman/]
+  Unresolved: Note: this answer relies only on lower-tier/unclassified sources; treat with extra caution.
+
+[COST / TRACE]
+  Tokens: 3131 (prompt=2799, completion=332)
+  Estimated cost: Rs.0.0000 (local model -> real cost Rs.0)
+  Wall clock: 237.7s
+==============================================================================
+
+──────────────────────────────────────────────────────────────────────────────
+  QUICK ANSWER
+──────────────────────────────────────────────────────────────────────────────
+  Arvinder Singh Sahney is the current Chairman of Indian Oil Corporation,
+  appointed as of November 13, 2024, following S. M. Vaidya's tenure and
+  V. Satish Kumar's interim period. [https://www.gktoday.in/arvinder-
+  singh-sahney-becomes-indian-oil-chairman/]
+  Unresolved: Note: this answer relies only on lower-tier/unclassified
+    sources; treat with extra caution.
+──────────────────────────────────────────────────────────────────────────────
+
+──────────────────────────────────────────────────────────────────────────────
+  YOUR QUESTION  ▶  Who is the current Vice-Chancellor of IIT Madras?
+
+  [8] Running pipeline for: 'Who is the current Vice-Chancellor of IIT Madras?'
+
+  ⟳  Working (Input Guard → Planner → Memory → Search/Fetch → Claims → Audit) ...
+
+  ✓ Done in 106.5s  |  Tokens used: 1868  |  Audit: PASSED ✓
+
+──────────────────────────────────────────────────────────────────────────────
+  FULL TRACE  (plan → search → evidence → claims → audit → answer)
+──────────────────────────────────────────────────────────────────────────────
+==============================================================================
+QUESTION: Who is the current Vice-Chancellor of IIT Madras?
+==============================================================================
+
+[PLAN]
+  Route: direct
+  Entities detected: ['Vice', 'Chancellor', 'IIT Madras']
+  Sub-questions (1):
+    1. Who is the current Vice-Chancellor of IIT Madras?
+  Planner reasoning: Direct route: question stands as its own search query, no decomposition needed.
+
+[MEMORY / ROUTING / SEARCH / FETCH TRACE]
+  - planner.plan: route=direct, entities=['Vice', 'Chancellor', 'IIT Madras']
+  - memory_lookup.cache_check: cached_facts_found=0
+  - router_decision.route: chosen=search
+  - router.search: sub_questions=1
+  - evidence.fetch: pieces=3, failed=2
+  - claims.llm_call: prompt_tokens=894, completion_tokens=85, latency_seconds=53.793, hit_output_cap=False
+  - auditor.llm_call: prompt_tokens=821, completion_tokens=68, latency_seconds=45.765, hit_output_cap=False
+  - auditor.audit: passed=True, supported=1, unsupported=0, contradicted=0
+  - router_decision.audit_route: chosen=end, passed=True
+  - memory_save.saved: facts_saved=1
+
+[ANALYST CANDIDATE ANSWER]
+  Claim 1: The current Vice-Chancellor of IIT Madras is Dr. S.Vijayakumar, IAS (Additional Chief Secretary to Government, Industries, Investment Promotion & Commerce Department, Government of Tamilnadu)
+
+[CITATIONS] (one per claim above)
+  [1] https://www.iitm.ac.in/the-institute/administration/governing-board
+
+[AUDITOR VERDICT] (per citation)
+  [1] SUPPORTED — The current Vice-Chancellor of IIT Madras is Dr. S.Vijayakumar, IAS (Additional Chief Secretary to Government, Industries, Investment Promotion & Commerce Department, Government of Tamilnadu)
+      source: https://www.iitm.ac.in/the-institute/administration/governing-board
+      reason: The source text explicitly lists Dr. S.Vijayakumar, IAS as Additional Chief Secretary to Government, Industries, Investment Promotion & Commerce Department, Government of Tamilnadu, and identifies him as a State Government Nominee for IIT Madras.
+      source tier: tier_3 (score=0.3)
+      cross-check: CORROBORATED - Corroborated: also appears in https://www.iitm.ac.in/the-institute/administration/central-administration
+
+  Summary: 1 supported, 0 unsupported, 0 contradicted -> PASSED
+  Confidence score: 1.0 / 1.00
+
+[FINAL VALIDATED ANSWER] (post Output Guard)
+  The current Vice-Chancellor of IIT Madras is Dr. S.Vijayakumar, IAS (Additional Chief Secretary to Government, Industries, Investment Promotion & Commerce Department, Government of Tamilnadu) [https://www.iitm.ac.in/the-institute/administration/governing-board]
+  Unresolved: Note: this answer relies only on lower-tier/unclassified sources; treat with extra caution.
+
+[COST / TRACE]
+  Tokens: 1868 (prompt=1715, completion=153)
+  Estimated cost: Rs.0.0000 (local model -> real cost Rs.0)
+  Wall clock: 106.5s
+==============================================================================
+
+──────────────────────────────────────────────────────────────────────────────
+  QUICK ANSWER
+──────────────────────────────────────────────────────────────────────────────
+  The current Vice-Chancellor of IIT Madras is Dr. S.Vijayakumar, IAS
+  (Additional Chief Secretary to Government, Industries, Investment
+  Promotion & Commerce Department, Government of Tamilnadu)
+  [https://www.iitm.ac.in/the-institute/administration/governing-board]
+  Unresolved: Note: this answer relies only on lower-tier/unclassified
+    sources; treat with extra caution.
+──────────────────────────────────────────────────────────────────────────────
+
+──────────────────────────────────────────────────────────────────────────────
+  YOUR QUESTION  ▶  What is Indian Oil Corporation's most recent quarterly profit figure?
+
+  [9] Running pipeline for: "What is Indian Oil Corporation's most recent quarterly profit figure?"
+
+  ⟳  Working (Input Guard → Planner → Memory → Search/Fetch → Claims → Audit) ...
+Search attempt 1/3 failed for query 'Indian Oil Corporation financial results Q4 2023 latest': No results found.
+Page text truncated for RAM safety: 4315 words -> 3000 words (https://www.icicidirect.com/research/equity/our-research-view/indian-oil-corporation-latest-quarterly-result-for-q4fy23)
+Page text truncated for RAM safety: 4315 words -> 3000 words (https://www.icicidirect.com/research/equity/our-research-view/indian-oil-corporation-latest-quarterly-result-for-q4fy23)
+Page text truncated for RAM safety: 4315 words -> 3000 words (https://www.icicidirect.com/research/equity/our-research-view/indian-oil-corporation-latest-quarterly-result-for-q4fy23)
+Evidence capped at 8 of 9 pieces for prompt size.
+Prompt truncated: 1311 words (~1769 tokens) -> 888 words (~1200 tokens) to respect MAX_INPUT_TOKENS=1200
+Dropped claim that just echoes the question instead of answering it: "Indian Oil Corporation's most recent quarterly profit figure"
+Dropped claim that just echoes the question instead of answering it: "Indian Oil Corporation's most recent quarterly profit figure"
+Dropped claim that just echoes the question instead of answering it: "Indian Oil Corporation's most recent quarterly profit figure"
+Dropped claim that just echoes the question instead of answering it: "Indian Oil Corporation's most recent quarterly profit figure"
+Dropped claim that just echoes the question instead of answering it: "Indian Oil Corporation's most recent quarterly profit figure"
+Dropped claim that just echoes the question instead of answering it: "Indian Oil Corporation's most recent quarterly profit figure"
+Search attempt 1/3 failed for query 'Indian Oil Corporation financial results Q4 2023 latest': No results found.
+Search attempt 2/3 failed for query 'Indian Oil Corporation financial results Q4 2023 latest': No results found.
+Search attempt 3/3 failed for query 'Indian Oil Corporation financial results Q4 2023 latest': No results found.
+Search failed for sub-question 'Indian Oil Corporation financial results Q4 2023 latest': Search failed for query 'Indian Oil Corporation financial results Q4 2023 latest' after 3 attempts: No results found.
+Search attempt 1/3 failed for query 'Indian Oil Corporation quarterly profit Q4 2023 financial statement': No results found.
+Search attempt 2/3 failed for query 'Indian Oil Corporation quarterly profit Q4 2023 financial statement': No results found.
+Page text truncated for RAM safety: 4315 words -> 3000 words (https://www.icicidirect.com/research/equity/our-research-view/indian-oil-corporation-latest-quarterly-result-for-q4fy23)
+Page text truncated for RAM safety: 4315 words -> 3000 words (https://www.icicidirect.com/research/equity/our-research-view/indian-oil-corporation-latest-quarterly-result-for-q4fy23)
+Prompt truncated: 1005 words (~1356 tokens) -> 888 words (~1200 tokens) to respect MAX_INPUT_TOKENS=1200
+
+  ✗ Pipeline error: Ollama call timed out after 180s.
+  (Is Ollama running? Try: ollama serve)
+
+──────────────────────────────────────────────────────────────────────────────
+  YOUR QUESTION  ▶
+  (empty input — please type a question)
+
+──────────────────────────────────────────────────────────────────────────────
+  YOUR QUESTION  ▶
+  (empty input — please type a question)
+
+──────────────────────────────────────────────────────────────────────────────
+  YOUR QUESTION  ▶  What is India's current wheat production, and why might estimates vary between sources?
+
+  [10] Running pipeline for: "What is India's current wheat production, and why might estimates vary between sources?"
+
+  ⟳  Working (Input Guard → Planner → Memory → Search/Fetch → Claims → Audit) ...
+
+  ✓ Done in 224.7s  |  Tokens used: 3486  |  Audit: FAILED ✗
+
+──────────────────────────────────────────────────────────────────────────────
+  FULL TRACE  (plan → search → evidence → claims → audit → answer)
+──────────────────────────────────────────────────────────────────────────────
+==============================================================================
+QUESTION: What is India's current wheat production, and why might estimates vary between sources?
+==============================================================================
+
+[PLAN]
+  Route: direct
+  Entities detected: ['India']
+  Sub-questions (1):
+    1. What is India's current wheat production, and why might estimates vary between sources?
+  Planner reasoning: Direct route: question stands as its own search query, no decomposition needed.
+
+[MEMORY / ROUTING / SEARCH / FETCH TRACE]
+  - planner.plan: route=direct, entities=['India']
+  - memory_lookup.cache_check: cached_facts_found=0
+  - router_decision.route: chosen=search
+  - router.search: sub_questions=1
+  - evidence.fetch: pieces=3, failed=2
+  - claims.llm_call: prompt_tokens=859, completion_tokens=186, latency_seconds=68.372, hit_output_cap=False
+  - auditor.llm_call: prompt_tokens=583, completion_tokens=146, latency_seconds=42.834, hit_output_cap=False
+  - auditor.audit: passed=False, supported=0, unsupported=1, contradicted=0
+  - router_decision.audit_route: chosen=retry
+  - gap_analyzer.retry_triggered:
+  - router.search: sub_questions=1
+  - evidence.fetch: pieces=3, failed=2
+  - claims.llm_call: prompt_tokens=857, completion_tokens=158, latency_seconds=54.718, hit_output_cap=False
+  - auditor.llm_call: prompt_tokens=570, completion_tokens=127, latency_seconds=37.191, hit_output_cap=False
+  - auditor.audit: passed=False, supported=0, unsupported=1, contradicted=0
+  - router_decision.audit_route: chosen=end, passed=False
+  - memory_save.saved: facts_saved=0
+
+[GAP ANALYZER] Auditor flagged issues -> retried research 1 time(s)
+
+[ANALYST CANDIDATE ANSWER]
+  Claim 1: India's current wheat production is estimated at 122.724 million tonnes for the 2024-25 crop year based on a pilot study using multi-source satellite data.
+  Unresolved (analyst): The evidence does not provide a clear consensus on the exact current wheat production figure due to conflicting estimates from different sources (evidence [2] mentions a growth of 4.65 million tonnes over the previous year but does not specify the absolute figure, while evidence [3] refers to a forecast for 2025-26 rather than current production).
+
+[CITATIONS] (one per claim above)
+  [1] https://www.isro.gov.in/Wheat_Crop_Area_and_Production_Estimation_in_India.html
+
+[AUDITOR VERDICT] (per citation)
+  [1] UNSUPPORTED — India's current wheat production is estimated at 122.724 million tonnes for the 2024-25 crop year based on a pilot study using multi-source satellite data.
+      source: https://www.isro.gov.in/Wheat_Crop_Area_and_Production_Estimation_in_India.html
+      reason: The source mentions an estimated production of 122.724 million tonnes for the 2024-25 Rabi season as of 31st March 2025, but the claim specifies the 2024-25 crop year, which is ambiguous as the Rabi season typically ends in March, while the Kharif season starts in June. The source does not clarify whether the estimate corresponds to the full 2024-25 crop year or just the Rabi season.
+      source tier: tier_1 (score=0.9)
+      cross-check: CORROBORATED - Corroborated: also appears in https://cropgpt.ai/india-wheat-production-estimates-and-export-resumption
+
+  Summary: 0 supported, 1 unsupported, 0 contradicted -> FAILED
+  Confidence score: 0.33 / 1.00
+
+[FINAL VALIDATED ANSWER] (post Output Guard)
+  No claims could be independently verified.
+  Unresolved: The evidence does not provide a clear consensus on the exact current wheat production figure due to conflicting estimates from different sources (evidence [2] mentions a growth of 4.65 million tonnes over the previous year but does not specify the absolute figure, while evidence [3] refers to a forecast for 2025-26 rather than current production). 1 claim(s) failed audit and were removed.
+
+[COST / TRACE]
+  Tokens: 3486 (prompt=2869, completion=617)
+  Estimated cost: Rs.0.0000 (local model -> real cost Rs.0)
+  Wall clock: 224.7s
+==============================================================================
+
+──────────────────────────────────────────────────────────────────────────────
+  QUICK ANSWER
+──────────────────────────────────────────────────────────────────────────────
+  No claims could be independently verified.
+  Unresolved: The evidence does not provide a clear consensus on the exact
+    current wheat production figure due to conflicting estimates from
+    different sources (evidence [2] mentions a growth of 4.65 million
+    tonnes over the previous year but does not specify the absolute
+    figure, while evidence [3] refers to a forecast for 2025-26 rather
+    than current production). 1 claim(s) failed audit and were removed.
+──────────────────────────────────────────────────────────────────────────────
+
+──────────────────────────────────────────────────────────────────────────────
+  YOUR QUESTION  ▶
