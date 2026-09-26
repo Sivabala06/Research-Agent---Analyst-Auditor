@@ -26,6 +26,7 @@ USER -> INPUT GUARD -> PLANNER -> MEMORY LOOKUP
                                                       MEMORY SAVE -> USER
 ```
 
+
 Orchestrated with **LangGraph** (`StateGraph`) — chosen for genuine conditional
 branching (memory cache hits, audit pass/fail retry), not a plain function chain.
 
@@ -160,9 +161,10 @@ model's variable output — a real, considered trade-off, not an oversight.
 ## Project structure
 
 ```
-research_agent/
+research_agent/src
 ├── main.py              # interactive CLI
-├── run_questions.py     # batch runner + cost summary
+├── run_questions.py
+     and Sample_runs.txt     # batch runner + cost summary & sample question and answer
 ├── graph.py              # LangGraph pipeline wiring
 ├── planner.py            # route classification, entity extraction
 ├── router.py              # search dispatch
@@ -180,7 +182,7 @@ research_agent/
 ├── report.py              # full transparent trace printer
 ├── llm_client.py          # Ollama wrapper
 ├── config.py              # all tunable constants
-└── tests/                 # pytest suite (65+ tests)
+research_agents/tests/     # pytest suite (65+ tests)
 ```
 
 ## Cost
